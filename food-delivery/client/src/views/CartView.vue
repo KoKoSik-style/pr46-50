@@ -1,7 +1,7 @@
 <template>
   <div class="cart">
     <h1>Корзина</h1>
-    <div v-if="cartItems.length === 0" class="empty">Ваша корзина пуста 😢</div>
+    <div v-if="cartItems.length === 0" class="empty">Ваша корзина пуста </div>
     <div v-else class="cart-content">
       <div class="cart-list">
         <div v-for="(item, index) in cartItems" :key="index" class="cart-item">
@@ -39,7 +39,10 @@ onMounted(() => {
   cartItems.value = JSON.parse(localStorage.getItem('cart') || '[]')
 })
 
-const totalPrice = computed(() => cartItems.value.reduce((sum, item) => sum + item.price, 0))
+// ИСПРАВЛЕНО: используем cartItems вместо items
+const totalPrice = computed(() => {
+  return cartItems.value.reduce((sum, item) => sum + Number(item.price), 0)
+})
 
 const removeItem = (index) => {
   cartItems.value.splice(index, 1)
